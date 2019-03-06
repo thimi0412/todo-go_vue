@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  mysql:
+    container_name: todo-mysql
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: todo-mysql
+    volumes:
+      - ./db-data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./docker/mysql/init/:/docker-entrypoint-initdb.d
+  golang:
+    links:
+      - mysql
+    build: ./docker/golang/
+    ports:
+      - "8090:8080"
+    volumes:
+      - ./docker/golang/:/go/src/
+    command: sh ./scripts/start_app.sh
+  vue:
+    build: ./docker/client
+    ports:
+      - 8888:8080
+    volumes:
+      - ./docker/client:/app
+      - /app/node_modules
+
+volumes:
+  db-data:
+    driver: local
