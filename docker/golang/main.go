@@ -24,11 +24,25 @@ func getUserHandler(c *gin.Context) {
 	c.JSON(200, todo)
 }
 
+func postUserHandler(c *gin.Context) {
+	name := c.PostForm("name")
+	email := c.PostForm("email")
+
+	user := registerUser(name, email)
+
+	c.JSON(200, gin.H{
+		"messege": "Success!",
+		"result":  user,
+	})
+
+}
+
 func main() {
 	r := gin.Default()
 
 	r.GET("/todo/:id", getTodoHandler)
 	r.GET("/user/:id", getUserHandler)
+	r.POST("/user", postUserHandler)
 
 	r.Run()
 }

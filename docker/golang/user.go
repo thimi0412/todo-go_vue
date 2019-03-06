@@ -18,3 +18,15 @@ func getUser(id int) User {
 
 	return user
 }
+
+func registerUser(name string, email string) User {
+	db := gormConnect()
+	defer db.Close()
+
+	user := User{}
+	user.Name = name
+	user.Email = email
+	db.Create(&user)
+
+	return user
+}
