@@ -2,9 +2,9 @@ package main
 
 // User : userのテーブルcolumn
 type User struct {
-	ID    int    `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID       int    `json:"id"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 func getUser(id int) User {
@@ -19,13 +19,13 @@ func getUser(id int) User {
 	return user
 }
 
-func registerUser(name string, email string) User {
+func registerUser(email string, password string) User {
 	db := gormConnect()
 	defer db.Close()
 
 	user := User{}
-	user.Name = name
 	user.Email = email
+	user.Password = password
 	db.Create(&user)
 
 	return user
