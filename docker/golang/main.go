@@ -18,18 +18,24 @@ func getTodoHandler(c *gin.Context) {
 
 func getUserHandler(c *gin.Context) {
 	sid := c.Param("id")
-	id, _ := strconv.Atoi(sid)
+	id, err := strconv.Atoi(sid)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"messege": err,
+		})
+	} else {
+		todo := getUser(id)
 
-	todo := getUser(id)
+		c.JSON(200, todo)
+	}
 
-	c.JSON(200, todo)
 }
 
 func postUserHandler(c *gin.Context) {
-	name := c.PostForm("name")
 	email := c.PostForm("email")
+	passoword := c.PostForm("passoword")
 
-	user := registerUser(name, email)
+	user := registerUser(email, passoword)
 
 	c.JSON(200, gin.H{
 		"messege": "Success!",
