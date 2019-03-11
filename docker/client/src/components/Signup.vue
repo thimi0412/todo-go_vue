@@ -3,7 +3,7 @@
     <h2>Sign up</h2>
     <input type="email" placeholder="Emali" v-model="email">
     <input type="password" placeholder="Password" v-model="password">
-    <button>Register</button>
+    <button @click=getTest>Register</button>
     <p>Do you have an account?
       <router-link to="/signin">sign in now!!</router-link>
     </p>
@@ -11,12 +11,19 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'Signup',
   data () {
     return {
       email: '',
       password: ''
+    }
+  },
+  methods: {
+    getTest: function(){
+      axios.get('http://localhost:8090/user/1')
+      .then(response => (console.log(response)))
     }
   }
 }
