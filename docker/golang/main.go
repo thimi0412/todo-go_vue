@@ -33,7 +33,7 @@ func getUserHandler(c *gin.Context) {
 
 func postUserHandler(c *gin.Context) {
 	email := c.PostForm("email")
-	passoword := c.PostForm("passoword")
+	passoword := c.PostForm("password")
 
 	user := registerUser(email, passoword)
 
