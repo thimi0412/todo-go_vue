@@ -2,8 +2,8 @@
   <div class='hello'>
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
-    <button @click="apiPublic">public</button>
-    <button @click="apiPrivate">private</button>
+    <button @click="SignIn()">SignIn</button>
+    <button @click="SignUp()">SignUp</button>
   </div>
 </template>
 
@@ -17,13 +17,11 @@ export default {
     }
   },
   methods: {
-    apiPublic: async function () {
-      let res = await axios.get('http://localhost:8000/public')
-      this.msg = res.data
+    SignIn () {
+      this.$router.push({ path: '/signin' })
     },
-    apiPrivate: async function () {
-      let res = await axios.get('http://localhost:8000/private')
-      this.msg = res.data
+    SignUp () {
+      this.$router.push({ path: '/signup' })
     }
   }
 }
