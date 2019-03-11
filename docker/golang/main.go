@@ -3,6 +3,7 @@ package main
 import (
 	"strconv"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -39,6 +40,7 @@ func postUserHandler(c *gin.Context) {
 
 func main() {
 	r := gin.Default()
+	r.Use(cors.Default())
 
 	r.GET("/todo/:id", getTodoHandler)
 	r.GET("/user/:id", getUserHandler)
