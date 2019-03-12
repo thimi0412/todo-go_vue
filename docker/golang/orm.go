@@ -10,7 +10,7 @@ func gormConnect() *gorm.DB {
 	USER := "root"
 	PASS := "password"
 	PROTOCOL := "tcp(mysql:3306)"
-	DBNAME := "todo-mysql"
+	DBNAME := "todo-mysql?parseTime=True&loc=Asia%2FTokyo"
 
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME
 	db, err := gorm.Open(DBMS, CONNECT)
