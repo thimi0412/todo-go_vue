@@ -34,7 +34,13 @@ func postUserHandler(c *gin.Context) {
 	email := c.PostForm("email")
 	passoword := c.PostForm("password")
 
-	user := registerUser(email, passoword)
+	user, err := registerUser(email, passoword)
+	if err != nil {
+		c.JSON(404, gin.H{
+			"messege": err,
+		})
+		return
+	}
 
 	c.JSON(200, gin.H{
 		"messege": "Success!",

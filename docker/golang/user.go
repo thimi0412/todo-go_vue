@@ -30,14 +30,19 @@ func getUser(id int) (User, error) {
 	return user, nil
 }
 
-func registerUser(email string, password string) User {
+func registerUser(email string, password string) (User, error) {
 	db := gormConnect()
 	defer db.Close()
 
 	user := User{}
 	user.Email = email
 	user.Password = password
+
+	if err := db.Create(&user).Error; err != nil {
+		return user, err
+	}
+
 	db.Create(&user)
 
-	return user
+	return user, nil
 }
