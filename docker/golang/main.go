@@ -18,17 +18,16 @@ func getTodoHandler(c *gin.Context) {
 
 func getUserHandler(c *gin.Context) {
 	sid := c.Param("id")
-	id, err := strconv.Atoi(sid)
+	id, _ := strconv.Atoi(sid)
+
+	user, err := getUser(id)
 	if err != nil {
-		c.JSON(500, gin.H{
-			"messege": err,
+		c.JSON(404, gin.H{
+			"messege": "Not Found User!",
 		})
-	} else {
-		todo := getUser(id)
-
-		c.JSON(200, todo)
+		return
 	}
-
+	c.JSON(200, user)
 }
 
 func postUserHandler(c *gin.Context) {
