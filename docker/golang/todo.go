@@ -33,3 +33,27 @@ func getTodo(id int) (Todo, error) {
 
 	return todo, nil
 }
+
+func registerTodo(userID int, context string, limitDate string) (Todo, error) {
+	db := gormConnect()
+	defer db.Close()
+
+	timeformat := "2006-01-02 15:04:05"
+
+	t, err := time.Parse(timeformat, "2013-04-09 22:57:14")
+	if err != nil {
+		panic(err)
+	}
+
+	now := time.Now()
+
+	todo := Todo{}
+	todo.UserID = userID
+	todo.Context = context
+	todo.LimitDate = &t
+	todo.InsertDate = &now
+	todo.UpdatedDate = &now
+
+	db.Create(&todo)
+	return todo, nil
+}

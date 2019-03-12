@@ -21,6 +21,28 @@ func getTodoHandler(c *gin.Context) {
 	c.JSON(200, todo)
 }
 
+func postTodoHandler(c *gin.Context) {
+	userID := c.PostForm("user_id")
+	context := c.PostForm("context")
+	limitDate := c.PostForm("limit_date")
+
+	suserID, _ := strconv.Atoi(userID)
+
+	todo, err := registerTodo(suserID, context, limitDate)
+	if err != nil {
+		c.JSON(404, gin.H{
+			"messege": err,
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"messege": "Success!",
+		"result":  todo,
+	})
+
+}
+
 func getUserHandler(c *gin.Context) {
 	sid := c.Param("id")
 	id, _ := strconv.Atoi(sid)
@@ -59,6 +81,7 @@ func main() {
 	r.Use(cors.Default())
 
 	r.GET("/todo/:id", getTodoHandler)
+	r.POST("/todo", postTodoHandler)
 	r.GET("/user/:id", getUserHandler)
 	r.POST("/user", postUserHandler)
 
