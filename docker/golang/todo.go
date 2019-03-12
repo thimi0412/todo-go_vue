@@ -40,7 +40,7 @@ func registerTodo(userID int, context string, limitDate string) (Todo, error) {
 
 	timeformat := "2006-01-02 15:04:05"
 
-	t, err := time.Parse(timeformat, "2013-04-09 22:57:14")
+	t, err := time.Parse(timeformat, limitDate)
 	if err != nil {
 		panic(err)
 	}
