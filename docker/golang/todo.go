@@ -2,15 +2,19 @@ package main
 
 import (
 	"errors"
+	"time"
 
 	"github.com/jinzhu/gorm"
 )
 
 // Todo : todoの内容
 type Todo struct {
-	ID      int    `json:"id"`
-	UserID  int    `json:"user_id"`
-	Context string `json:"context"`
+	ID          int        `json:"id"`
+	UserID      int        `json:"user_id"`
+	Context     string     `json:"context"`
+	LimitDate   *time.Time `json:"limit_date"`
+	InsertDate  *time.Time `json:"insert_date"`
+	UpdatedDate *time.Time `json:"updated_date"`
 }
 
 func getTodo(id int) (Todo, error) {
