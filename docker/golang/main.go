@@ -11,8 +11,13 @@ func getTodoHandler(c *gin.Context) {
 	sid := c.Param("id")
 	id, _ := strconv.Atoi(sid)
 
-	todo := getTodo(id)
-
+	todo, err := getTodo(id)
+	if err != nil {
+		c.JSON(404, gin.H{
+			"messege": "Not Found Todo!",
+		})
+		return
+	}
 	c.JSON(200, todo)
 }
 
