@@ -13,15 +13,14 @@ type User struct {
 	Password string `json:"password"`
 }
 
-func getUser(id int) (User, error) {
+func getUser(email string, password string) (User, error) {
 
 	db := gormConnect()
 	defer db.Close()
 
 	user := User{}
-	user.ID = id
 
-	if err := db.First(&user).Error; gorm.IsRecordNotFoundError(err) {
+	if err := db.Where("email = ? AND password = ?", email, password).First(&user).Error; gorm.IsRecordNotFoundError(err) {
 		return user, errors.New("Record is not found")
 	}
 

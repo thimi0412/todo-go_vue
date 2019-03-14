@@ -44,10 +44,9 @@ func postTodoHandler(c *gin.Context) {
 }
 
 func getUserHandler(c *gin.Context) {
-	sid := c.Param("id")
-	id, _ := strconv.Atoi(sid)
-
-	user, err := getUser(id)
+	email := c.PostForm("email")
+	passoword := c.PostForm("password")
+	user, err := getUser(email, passoword)
 	if err != nil {
 		c.JSON(404, gin.H{
 			"messege": "Not Found User!",
@@ -82,8 +81,8 @@ func main() {
 
 	r.GET("/todo/:id", getTodoHandler)
 	r.POST("/todo", postTodoHandler)
-	r.GET("/user/:id", getUserHandler)
-	r.POST("/user", postUserHandler)
+	r.POST("/signin", getUserHandler)
+	r.POST("/signup", postUserHandler)
 
 	r.Run()
 }
