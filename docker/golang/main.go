@@ -43,7 +43,7 @@ func postTodoHandler(c *gin.Context) {
 
 }
 
-func getUserHandler(c *gin.Context) {
+func signInHandler(c *gin.Context) {
 	email := c.PostForm("email")
 	passoword := c.PostForm("password")
 	user, err := getUser(email, passoword)
@@ -56,7 +56,7 @@ func getUserHandler(c *gin.Context) {
 	c.JSON(200, user)
 }
 
-func postUserHandler(c *gin.Context) {
+func signUpHandler(c *gin.Context) {
 	email := c.PostForm("email")
 	passoword := c.PostForm("password")
 
@@ -81,8 +81,8 @@ func main() {
 
 	r.GET("/todo/:id", getTodoHandler)
 	r.POST("/todo", postTodoHandler)
-	r.POST("/signin", getUserHandler)
-	r.POST("/signup", postUserHandler)
+	r.POST("/signin", signInHandler)
+	r.POST("/signup", signUpHandler)
 
 	r.Run()
 }
