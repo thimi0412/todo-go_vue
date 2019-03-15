@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,6 +20,20 @@ func getTodoHandler(c *gin.Context) {
 		return
 	}
 	c.JSON(200, todo)
+}
+
+func getTodosHander(c *gin.Context) {
+	todos, err := getTodos(1)
+	if err != nil {
+		c.JSON(404, gin.H{
+			"messege": err,
+		})
+		return
+	}
+	c.JSON(200, gin.H{
+		"messege": "Success!",
+		"result":  todos,
+	})
 }
 
 func postTodoHandler(c *gin.Context) {
@@ -44,6 +59,7 @@ func postTodoHandler(c *gin.Context) {
 }
 
 func signInHandler(c *gin.Context) {
+	session := sessions.Default(c)
 	email := c.PostForm("email")
 	passoword := c.PostForm("password")
 	user, err := getUser(email, passoword)
@@ -53,6 +69,8 @@ func signInHandler(c *gin.Context) {
 		})
 		return
 	}
+	session.Set("id", user.ID)
+	session.Save()
 	c.JSON(200, user)
 }
 
@@ -78,8 +96,11 @@ func signUpHandler(c *gin.Context) {
 func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
+	store := sessions.NewCookieStore([]byte("secret"))
+	r.Use(sessions.Sessions("mysession", store))
 
 	r.GET("/todo/:id", getTodoHandler)
+	r.GET("/todo", getTodosHander)
 	r.POST("/todo", postTodoHandler)
 	r.POST("/signin", signInHandler)
 	r.POST("/signup", signUpHandler)
