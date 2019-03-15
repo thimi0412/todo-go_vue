@@ -11,9 +11,9 @@ import (
 func getTodoHandler(c *gin.Context) {
 
 	session := sessions.Default(c)
-	user_id := session.Get("id")
+	userID := session.Get("id")
 
-	if user_id == nil {
+	if userID == nil {
 		c.JSON(404, gin.H{
 			"messege": "Please Login",
 		})
@@ -35,16 +35,16 @@ func getTodoHandler(c *gin.Context) {
 
 func getTodosHander(c *gin.Context) {
 	session := sessions.Default(c)
-	user_id := session.Get("id")
+	userID := session.Get("id")
 
-	if user_id == nil {
+	if userID == nil {
 		c.JSON(404, gin.H{
 			"messege": "Please Login",
 		})
 		return
 	}
 
-	todos, err := getTodos(user_id.(int))
+	todos, err := getTodos(userID.(int))
 	if err != nil {
 		c.JSON(404, gin.H{
 			"messege": err,
@@ -58,13 +58,13 @@ func getTodosHander(c *gin.Context) {
 }
 
 func postTodoHandler(c *gin.Context) {
-	userID := c.PostForm("user_id")
+	session := sessions.Default(c)
+	userID := session.Get("id")
+
 	context := c.PostForm("context")
 	limitDate := c.PostForm("limit_date")
 
-	suserID, _ := strconv.Atoi(userID)
-
-	todo, err := registerTodo(suserID, context, limitDate)
+	todo, err := registerTodo(userID.(int), context, limitDate)
 	if err != nil {
 		c.JSON(404, gin.H{
 			"messege": err,
