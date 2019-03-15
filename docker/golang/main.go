@@ -9,6 +9,17 @@ import (
 )
 
 func getTodoHandler(c *gin.Context) {
+
+	session := sessions.Default(c)
+	user_id := session.Get("id")
+
+	if user_id == nil {
+		c.JSON(404, gin.H{
+			"messege": "Please Login",
+		})
+		return
+	}
+
 	sid := c.Param("id")
 	id, _ := strconv.Atoi(sid)
 
@@ -23,7 +34,17 @@ func getTodoHandler(c *gin.Context) {
 }
 
 func getTodosHander(c *gin.Context) {
-	todos, err := getTodos(1)
+	session := sessions.Default(c)
+	user_id := session.Get("id")
+
+	if user_id == nil {
+		c.JSON(404, gin.H{
+			"messege": "Please Login",
+		})
+		return
+	}
+
+	todos, err := getTodos(user_id.(int))
 	if err != nil {
 		c.JSON(404, gin.H{
 			"messege": err,
