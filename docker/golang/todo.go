@@ -34,17 +34,17 @@ func getTodo(id int) (Todo, error) {
 	return todo, nil
 }
 
-func getTodos(user_id int) ([]Todo, error) {
+func getTodos(userID int) ([]Todo, error) {
 	db := gormConnect()
 	defer db.Close()
 
 	todos := []Todo{}
 
-	if err := db.Find(&todos, "user_id=?", user_id).Error; gorm.IsRecordNotFoundError(err) {
+	if err := db.Find(&todos, "user_id=?", userID).Error; gorm.IsRecordNotFoundError(err) {
 		return todos, err
 	}
 
-	db.Find(&todos, "user_id=?", user_id)
+	db.Find(&todos, "user_id=?", userID)
 
 	return todos, nil
 }
