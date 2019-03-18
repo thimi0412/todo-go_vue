@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"strconv"
 
 	"github.com/badoux/checkmail"
@@ -108,8 +107,6 @@ func signUpHandler(c *gin.Context) {
 		})
 		return
 	}
-
-	log.Println(email)
 
 	user, err := registerUser(email, passoword)
 	if err != nil {
