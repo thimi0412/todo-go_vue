@@ -103,7 +103,7 @@ func signUpHandler(c *gin.Context) {
 	err := checkmail.ValidateFormat(email)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"messege": "No parameters have been entered",
+			"messege": "Invalid email",
 		})
 		return
 	}
