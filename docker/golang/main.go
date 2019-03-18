@@ -1,8 +1,10 @@
 package main
 
 import (
+	"log"
 	"strconv"
 
+	"github.com/badoux/checkmail"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -98,6 +100,16 @@ func signInHandler(c *gin.Context) {
 func signUpHandler(c *gin.Context) {
 	email := c.PostForm("email")
 	passoword := c.PostForm("password")
+
+	err := checkmail.ValidateFormat(email)
+	if err != nil {
+		c.JSON(404, gin.H{
+			"messege": "No parameters have been entered",
+		})
+		return
+	}
+
+	log.Println(email)
 
 	user, err := registerUser(email, passoword)
 	if err != nil {

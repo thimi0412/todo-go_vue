@@ -1,6 +1,7 @@
 module todo
 
 require (
+	github.com/badoux/checkmail v0.0.0-20181210160741-9661bd69e9ad
 	github.com/boj/redistore v0.0.0-20180917114910-cd5dcc76aeff // indirect
 	github.com/gin-contrib/cors v0.0.0-20190301062745-f9e10995c85a
 	github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3 // indirect
