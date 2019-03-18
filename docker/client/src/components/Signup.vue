@@ -25,9 +25,7 @@ export default {
       let params = new URLSearchParams();
       params.append('email', this.email);
       params.append('password', this.password);
-      axios.post('http://localhost:8090/signup', params,{
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      })
+      axios.post('http://localhost:8090/signup', params)
       .then(response => (console.log(response)))
       .catch(response => (console.log(response)))
     }
