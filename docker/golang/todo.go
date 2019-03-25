@@ -29,8 +29,6 @@ func getTodo(id int) (Todo, error) {
 		return todo, errors.New("Record is not found")
 	}
 
-	db.First(&todo)
-
 	return todo, nil
 }
 
@@ -43,8 +41,6 @@ func getTodos(userID int) ([]Todo, error) {
 	if err := db.Find(&todos, "user_id=?", userID).Error; gorm.IsRecordNotFoundError(err) {
 		return todos, err
 	}
-
-	db.Find(&todos, "user_id=?", userID)
 
 	return todos, nil
 }

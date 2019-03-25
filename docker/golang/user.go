@@ -24,8 +24,6 @@ func getUser(email string, password string) (User, error) {
 		return user, errors.New("Record is not found")
 	}
 
-	db.First(&user)
-
 	return user, nil
 }
 
@@ -40,8 +38,6 @@ func registerUser(email string, password string) (User, error) {
 	if err := db.Create(&user).Error; err != nil {
 		return user, err
 	}
-
-	db.Create(&user)
 
 	return user, nil
 }
