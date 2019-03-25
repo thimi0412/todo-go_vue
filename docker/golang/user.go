@@ -20,7 +20,11 @@ func getUser(email string, password string) (User, error) {
 
 	user := User{}
 
-	if err := db.Where("email = ? AND password = ?", email, password).First(&user).Error; gorm.IsRecordNotFoundError(err) {
+	if err := db.Where("email = ?", email).First(&user).Error; gorm.IsRecordNotFoundError(err) {
+		return user, errors.New("Record is not found")
+	}
+	err := passwordVerify(user.Password, password)
+	if err != nil {
 		return user, errors.New("Record is not found")
 	}
 
@@ -33,7 +37,11 @@ func registerUser(email string, password string) (User, error) {
 
 	user := User{}
 	user.Email = email
-	user.Password = password
+	hash, err := passwordHash(password)
+	if err != nil {
+		return user, err
+	}
+	user.Password = hash
 
 	if err := db.Create(&user).Error; err != nil {
 		return user, err

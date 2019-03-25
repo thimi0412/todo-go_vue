@@ -14,4 +14,5 @@ require (
 	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a // indirect
 	github.com/mattn/go-isatty v0.0.6 // indirect
 	github.com/ugorji/go/codec v0.0.0-20190204201341-e444a5086c43 // indirect
+	golang.org/x/crypto v0.0.0-20190320223903-b7391e95e576
 )
