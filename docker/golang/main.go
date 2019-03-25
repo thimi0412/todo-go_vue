@@ -15,7 +15,7 @@ func getTodoHandler(c *gin.Context) {
 	userID := session.Get("id")
 
 	if userID == nil {
-		c.JSON(404, gin.H{
+		c.JSON(400, gin.H{
 			"messege": "Please Login",
 		})
 		return
@@ -26,7 +26,7 @@ func getTodoHandler(c *gin.Context) {
 
 	todo, err := getTodo(id)
 	if err != nil {
-		c.JSON(404, gin.H{
+		c.JSON(400, gin.H{
 			"messege": "Not Found Todo!",
 		})
 		return
@@ -39,7 +39,7 @@ func getTodosHander(c *gin.Context) {
 	userID := session.Get("id")
 
 	if userID == nil {
-		c.JSON(404, gin.H{
+		c.JSON(400, gin.H{
 			"messege": "Please Login",
 		})
 		return
@@ -47,7 +47,7 @@ func getTodosHander(c *gin.Context) {
 
 	todos, err := getTodos(userID.(int))
 	if err != nil {
-		c.JSON(404, gin.H{
+		c.JSON(400, gin.H{
 			"messege": err,
 		})
 		return
@@ -86,7 +86,7 @@ func signInHandler(c *gin.Context) {
 	passoword := c.PostForm("password")
 	user, err := getUser(email, passoword)
 	if err != nil {
-		c.JSON(404, gin.H{
+		c.JSON(400, gin.H{
 			"messege": "Not Found User!",
 		})
 		return
@@ -102,7 +102,7 @@ func signUpHandler(c *gin.Context) {
 
 	err := checkmail.ValidateFormat(email)
 	if err != nil {
-		c.JSON(404, gin.H{
+		c.JSON(400, gin.H{
 			"messege": "Invalid email",
 		})
 		return
@@ -110,7 +110,7 @@ func signUpHandler(c *gin.Context) {
 
 	user, err := registerUser(email, passoword)
 	if err != nil {
-		c.JSON(404, gin.H{
+		c.JSON(400, gin.H{
 			"messege": err,
 		})
 		return
