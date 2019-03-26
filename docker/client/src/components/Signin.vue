@@ -3,14 +3,13 @@
         <h2>Sign in</h2>
         <input type="email" placeholder="Email" v-model="email">
         <input type="password" placeholder="Password" v-model="password">
-        <button>Signin</button>
-        <p>You don't have an account?
-            <router-link to="/signup">create account now!!</router-link>
-        </p>
+        <button @click="signin">Signin</button>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'Signin',
   data: function () {
@@ -18,7 +17,21 @@ export default {
       email: '',
       password: ''
     }
+  },
+  methods: {
+    signin: function(){
+      let params = new URLSearchParams();
+      params.append('email', this.email);
+      params.append('password', this.password);
+      axios.post('http://localhost:8090/signin', params)
+      .then(response => {
+        console.log(response)
+        this.$router.push({ path: '/todo' })
+      })
+      .catch(response => (console.log(response)))
+    }
   }
+
 }
 </script>
 
