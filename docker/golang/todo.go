@@ -29,9 +29,20 @@ func getTodo(id int) (Todo, error) {
 		return todo, errors.New("Record is not found")
 	}
 
-	db.First(&todo)
-
 	return todo, nil
+}
+
+func getTodos(userID int) ([]Todo, error) {
+	db := gormConnect()
+	defer db.Close()
+
+	todos := []Todo{}
+
+	if err := db.Find(&todos, "user_id=?", userID).Error; gorm.IsRecordNotFoundError(err) {
+		return todos, err
+	}
+
+	return todos, nil
 }
 
 func registerTodo(userID int, context string, limitDate string) (Todo, error) {

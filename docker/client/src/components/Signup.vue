@@ -3,7 +3,7 @@
     <h2>Sign up</h2>
     <input type="email" placeholder="Emali" v-model="email">
     <input type="password" placeholder="Password" v-model="password">
-    <button @click=getTest>Register</button>
+    <button @click="signUp">Register</button>
     <p>Do you have an account?
       <router-link to="/signin">sign in now!!</router-link>
     </p>
@@ -21,9 +21,13 @@ export default {
     }
   },
   methods: {
-    getTest: function(){
-      axios.get('http://localhost:8090/user/1')
+    signUp: function(){
+      let params = new URLSearchParams();
+      params.append('email', this.email);
+      params.append('password', this.password);
+      axios.post('http://localhost:8090/signup', params)
       .then(response => (console.log(response)))
+      .catch(response => (console.log(response)))
     }
   }
 }

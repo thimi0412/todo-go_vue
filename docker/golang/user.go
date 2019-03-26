@@ -13,19 +13,20 @@ type User struct {
 	Password string `json:"password"`
 }
 
-func getUser(id int) (User, error) {
+func getUser(email string, password string) (User, error) {
 
 	db := gormConnect()
 	defer db.Close()
 
 	user := User{}
-	user.ID = id
 
-	if err := db.First(&user).Error; gorm.IsRecordNotFoundError(err) {
+	if err := db.Where("email = ?", email).First(&user).Error; gorm.IsRecordNotFoundError(err) {
 		return user, errors.New("Record is not found")
 	}
-
-	db.First(&user)
+	err := passwordVerify(user.Password, password)
+	if err != nil {
+		return user, errors.New("Record is not found")
+	}
 
 	return user, nil
 }
@@ -36,13 +37,15 @@ func registerUser(email string, password string) (User, error) {
 
 	user := User{}
 	user.Email = email
-	user.Password = password
+	hash, err := passwordHash(password)
+	if err != nil {
+		return user, err
+	}
+	user.Password = hash
 
 	if err := db.Create(&user).Error; err != nil {
 		return user, err
 	}
-
-	db.Create(&user)
 
 	return user, nil
 }
