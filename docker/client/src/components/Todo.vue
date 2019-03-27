@@ -1,26 +1,26 @@
 <template>
   <div class='hello'>
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <button @click="SignIn()">SignIn</button>
-    <button @click="SignUp()">SignUp</button>
+    <h1>TODO</h1>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  name: 'HelloWorld',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
   },
+  created () {
+    this.getSessions()
+  },
   methods: {
-    SignIn () {
-      this.$router.push({ path: '/signin' })
-    },
-    SignUp () {
-      this.$router.push({ path: '/signup' })
+    getSessions () {
+      axios.get('http://localhost:8090/todo')
+        .then(res => { console.log(res) })
+        .catch(err => { console.log(err.response) })
     }
   }
 }

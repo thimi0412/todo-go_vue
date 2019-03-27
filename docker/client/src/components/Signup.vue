@@ -1,8 +1,8 @@
 <template>
   <div class="signup">
     <h2>Sign up</h2>
-    <input type="email" placeholder="Emali" v-model="email">
-    <input type="password" placeholder="Password" v-model="password">
+    <input type="email" placeholder="Emali" v-model="email" style="border: 1px solid gray">
+    <input type="password" placeholder="Password" v-model="password" style="border: 1px solid gray">
     <button @click="signUp">Register</button>
     <p>Do you have an account?
       <router-link to="/signin">sign in now!!</router-link>
