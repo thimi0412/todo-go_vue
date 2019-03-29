@@ -32,27 +32,42 @@ func getTodoHandler(c *gin.Context) {
 	c.JSON(200, todo)
 }
 
-// func getTodosHander(c *gin.Context) {
+func getTodosHander(c *gin.Context) {
 
-// 	userID := 1
+	h := c.GetHeader("Authorization")
 
-// 	todos, err := getTodos(userID)
-// 	if err != nil {
-// 		c.JSON(400, gin.H{
-// 			"messege": err,
-// 		})
-// 		return
-// 	}
-// 	c.JSON(200, gin.H{
-// 		"messege": "Success!",
-// 		"result":  todos,
-// 	})
-// }
+	userID, err := authTokenString(h)
+	if err != nil || userID == 0 {
+		c.JSON(400, gin.H{
+			"messege": err,
+		})
+		return
+	}
+
+	todos, err := getTodos(userID)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"messege": err,
+		})
+		return
+	}
+	c.JSON(200, gin.H{
+		"messege": "Success!",
+		"result":  todos,
+	})
+}
 
 func postTodoHandler(c *gin.Context) {
 
-	sid := c.PostForm("userid")
-	userID, _ := strconv.Atoi(sid)
+	h := c.GetHeader("Authorization")
+
+	userID, err := authTokenString(h)
+	if err != nil || userID == 0 {
+		c.JSON(400, gin.H{
+			"messege": err,
+		})
+		return
+	}
 	context := c.PostForm("context")
 	limitDate := c.PostForm("limit_date")
 
