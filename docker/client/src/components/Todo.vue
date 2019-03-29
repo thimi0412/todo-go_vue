@@ -1,26 +1,62 @@
 <template>
   <div class='hello'>
     <h1>TODO</h1>
+    <p v-for="(todo, index) in todos" :key="index">{{ todo }}</p>
+
+    <input v-model="form.context" type="text" placeholder="context" />
+    <input @input="updateValue" type="datetime-local" placeholder="date-time" />
+    <button @click="postTodo()" style="background-color: gray;">post</button>
+
+    <p>{{ form }}</p>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 
+const tmp = document.cookie.split('; ')
+let data = tmp[0].split('=')[1]
+axios.defaults.headers.common['Authorization'] = data
+
 export default {
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      form: {
+        context: '',
+        dateTime: ''
+      },
+      todos: [],
+      date: new Date().toLocaleString().replace(/\//g, '-')
     }
   },
   created () {
-    this.getSessions()
+    this.get()
   },
   methods: {
-    getSessions () {
+    get () {
       axios.get('http://localhost:8090/todo')
-        .then(res => { console.log(res) })
+        .then(res => {
+          console.log(res)
+          this.todos = res.data.result
+          console.log(document.cookie)
+        })
         .catch(err => { console.log(err.response) })
+    },
+    updateValue (event) {
+      this.form.dateTime = event.target.value.replace(/T/, ' ').replace(/\//, '-') + ':00'
+    },
+    postTodo () {
+      let params = new URLSearchParams();
+      params.append('context', this.form.context);
+      params.append('limit_date', this.form.dateTime);
+      axios.post('http://localhost:8090/todo', params)
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }

@@ -26,6 +26,7 @@ export default {
       axios.post('http://localhost:8090/signin', params)
       .then(response => {
         console.log(response)
+        document.cookie = 'jwt=' + response.data.token
         this.$router.push({ path: '/todo' })
       })
       .catch(response => (console.log(response)))
