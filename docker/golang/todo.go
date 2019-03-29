@@ -17,15 +17,14 @@ type Todo struct {
 	UpdatedAt time.Time  `json:"updated_at"`
 }
 
-func getTodo(id int) (Todo, error) {
+func getTodo(id int, userID int) (Todo, error) {
 
 	db := gormConnect()
 	defer db.Close()
 
 	todo := Todo{}
-	todo.ID = id
 
-	if err := db.First(&todo).Error; gorm.IsRecordNotFoundError(err) {
+	if err := db.First(&todo, "id=? AND user_id =?", id, userID).Error; gorm.IsRecordNotFoundError(err) {
 		return todo, errors.New("Record is not found")
 	}
 

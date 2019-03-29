@@ -9,11 +9,20 @@ import (
 )
 
 func getTodoHandler(c *gin.Context) {
+	h := c.GetHeader("Authorization")
+
+	userID, err := authTokenString(h)
+	if err != nil || userID == 0 {
+		c.JSON(400, gin.H{
+			"messege": err,
+		})
+		return
+	}
 
 	sid := c.Param("id")
 	id, _ := strconv.Atoi(sid)
 
-	todo, err := getTodo(id)
+	todo, err := getTodo(id, userID)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"messege": "Not Found Todo!",
@@ -66,13 +75,19 @@ func signInHandler(c *gin.Context) {
 	email := c.PostForm("email")
 	passoword := c.PostForm("password")
 	user, err := getUser(email, passoword)
+
+	token := createTokenString(user)
+
 	if err != nil {
 		c.JSON(400, gin.H{
 			"messege": "Not Found User!",
 		})
 		return
 	}
-	c.JSON(200, user)
+	c.JSON(200, gin.H{
+		"messege": "Success!",
+		"token":   token,
+	})
 }
 
 func signUpHandler(c *gin.Context) {
