@@ -143,7 +143,7 @@ func main() {
 	}))
 
 	r.GET("/todo/:id", getTodoHandler)
-	// r.GET("/todo", getTodosHander)
+	r.GET("/todo", getTodosHander)
 	r.POST("/todo", postTodoHandler)
 	r.POST("/signin", signInHandler)
 	r.POST("/signup", signUpHandler)
