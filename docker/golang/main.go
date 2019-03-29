@@ -42,7 +42,7 @@ func getTodoHandler(c *gin.Context) {
 
 func postTodoHandler(c *gin.Context) {
 
-	sid := c.Param("userid")
+	sid := c.PostForm("userid")
 	userID, _ := strconv.Atoi(sid)
 	context := c.PostForm("context")
 	limitDate := c.PostForm("limit_date")
