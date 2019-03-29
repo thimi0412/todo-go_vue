@@ -5,21 +5,10 @@ import (
 
 	"github.com/badoux/checkmail"
 	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
 func getTodoHandler(c *gin.Context) {
-
-	session := sessions.Default(c)
-	userID := session.Get("id")
-
-	if userID == nil {
-		c.JSON(400, gin.H{
-			"messege": "Please Login",
-		})
-		return
-	}
 
 	sid := c.Param("id")
 	id, _ := strconv.Atoi(sid)
@@ -34,38 +23,31 @@ func getTodoHandler(c *gin.Context) {
 	c.JSON(200, todo)
 }
 
-func getTodosHander(c *gin.Context) {
-	session := sessions.Default(c)
-	userID := session.Get("id")
+// func getTodosHander(c *gin.Context) {
 
-	if userID == nil {
-		c.JSON(400, gin.H{
-			"messege": "Please Login",
-		})
-		return
-	}
+// 	userID := 1
 
-	todos, err := getTodos(userID.(int))
-	if err != nil {
-		c.JSON(400, gin.H{
-			"messege": err,
-		})
-		return
-	}
-	c.JSON(200, gin.H{
-		"messege": "Success!",
-		"result":  todos,
-	})
-}
+// 	todos, err := getTodos(userID)
+// 	if err != nil {
+// 		c.JSON(400, gin.H{
+// 			"messege": err,
+// 		})
+// 		return
+// 	}
+// 	c.JSON(200, gin.H{
+// 		"messege": "Success!",
+// 		"result":  todos,
+// 	})
+// }
 
 func postTodoHandler(c *gin.Context) {
-	session := sessions.Default(c)
-	userID := session.Get("id")
 
+	sid := c.Param("userid")
+	userID, _ := strconv.Atoi(sid)
 	context := c.PostForm("context")
 	limitDate := c.PostForm("limit_date")
 
-	todo, err := registerTodo(userID.(int), context, limitDate)
+	todo, err := registerTodo(userID, context, limitDate)
 	if err != nil {
 		c.JSON(404, gin.H{
 			"messege": err,
@@ -81,7 +63,6 @@ func postTodoHandler(c *gin.Context) {
 }
 
 func signInHandler(c *gin.Context) {
-	session := sessions.Default(c)
 	email := c.PostForm("email")
 	passoword := c.PostForm("password")
 	user, err := getUser(email, passoword)
@@ -91,8 +72,6 @@ func signInHandler(c *gin.Context) {
 		})
 		return
 	}
-	session.Set("id", user.ID)
-	session.Save()
 	c.JSON(200, user)
 }
 
@@ -126,11 +105,9 @@ func signUpHandler(c *gin.Context) {
 func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
-	store := sessions.NewCookieStore([]byte("secret"))
-	r.Use(sessions.Sessions("mysession", store))
 
 	r.GET("/todo/:id", getTodoHandler)
-	r.GET("/todo", getTodosHander)
+	// r.GET("/todo", getTodosHander)
 	r.POST("/todo", postTodoHandler)
 	r.POST("/signin", signInHandler)
 	r.POST("/signup", signUpHandler)
