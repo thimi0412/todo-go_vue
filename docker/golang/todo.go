@@ -9,12 +9,12 @@ import (
 
 // Todo : todoの内容
 type Todo struct {
-	ID          int        `json:"id"`
-	UserID      int        `json:"user_id"`
-	Context     string     `json:"context"`
-	LimitDate   *time.Time `json:"limit_date"`
-	InsertDate  *time.Time `json:"insert_date"`
-	UpdatedDate *time.Time `json:"updated_date"`
+	ID        int        `json:"id"`
+	UserID    int        `json:"user_id"`
+	Context   string     `json:"context"`
+	LimitDate *time.Time `json:"limit_date"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
 }
 
 func getTodo(id int) (Todo, error) {
@@ -50,20 +50,17 @@ func registerTodo(userID int, context string, limitDate string) (Todo, error) {
 	defer db.Close()
 
 	timeformat := "2006-01-02 15:04:05"
+	loc, _ := time.LoadLocation("Asia/Tokyo")
 
-	t, err := time.Parse(timeformat, limitDate)
+	t, err := time.ParseInLocation(timeformat, limitDate, loc)
 	if err != nil {
 		panic(err)
 	}
-
-	now := time.Now()
 
 	todo := Todo{}
 	todo.UserID = userID
 	todo.Context = context
 	todo.LimitDate = &t
-	todo.InsertDate = &now
-	todo.UpdatedDate = &now
 
 	db.Create(&todo)
 	return todo, nil
