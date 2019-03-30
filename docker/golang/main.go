@@ -102,7 +102,7 @@ func updateTodoHandler(c *gin.Context) {
 	context := c.PostForm("context")
 	limitDate := c.PostForm("limit_date")
 
-	todo, err := updateTodo(ID, context, limitDate)
+	todo, err := updateTodo(userID, ID, context, limitDate)
 	if err != nil {
 		c.JSON(404, gin.H{
 			"messege": err,

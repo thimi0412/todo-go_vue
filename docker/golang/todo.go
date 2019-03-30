@@ -65,7 +65,7 @@ func registerTodo(userID int, context string, limitDate string) (Todo, error) {
 	return todo, nil
 }
 
-func updateTodo(ID int, context string, limitDate string) (Todo, error) {
+func updateTodo(userID int, ID int, context string, limitDate string) (Todo, error) {
 	db := gormConnect()
 	defer db.Close()
 
@@ -79,6 +79,7 @@ func updateTodo(ID int, context string, limitDate string) (Todo, error) {
 
 	todo := Todo{}
 	todo.ID = ID
+	todo.UserID = userID
 
 	if err := db.Model(&todo).Updates(Todo{Context: context, LimitDate: &t}).Error; err != nil {
 		return todo, err
