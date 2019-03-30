@@ -86,6 +86,36 @@ func postTodoHandler(c *gin.Context) {
 
 }
 
+func updateTodoHandler(c *gin.Context) {
+	h := c.GetHeader("Authorization")
+
+	userID, err := authTokenString(h)
+	if err != nil || userID == 0 {
+		c.JSON(400, gin.H{
+			"messege": err,
+		})
+		return
+	}
+
+	sid := c.PostForm("id")
+	ID, _ := strconv.Atoi(sid)
+	context := c.PostForm("context")
+	limitDate := c.PostForm("limit_date")
+
+	todo, err := updateTodo(ID, context, limitDate)
+	if err != nil {
+		c.JSON(404, gin.H{
+			"messege": err,
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"messege": "Success!",
+		"result":  todo,
+	})
+}
+
 func signInHandler(c *gin.Context) {
 	email := c.PostForm("email")
 	passoword := c.PostForm("password")
@@ -145,6 +175,7 @@ func main() {
 	r.GET("/todo/:id", getTodoHandler)
 	r.GET("/todo", getTodosHander)
 	r.POST("/todo", postTodoHandler)
+	r.PUT("/todo", updateTodoHandler)
 	r.POST("/signin", signInHandler)
 	r.POST("/signup", signUpHandler)
 

@@ -64,3 +64,24 @@ func registerTodo(userID int, context string, limitDate string) (Todo, error) {
 	db.Create(&todo)
 	return todo, nil
 }
+
+func updateTodo(ID int, context string, limitDate string) (Todo, error) {
+	db := gormConnect()
+	defer db.Close()
+
+	timeformat := "2006-01-02 15:04:05"
+	loc, _ := time.LoadLocation("Asia/Tokyo")
+
+	t, err := time.ParseInLocation(timeformat, limitDate, loc)
+	if err != nil {
+		panic(err)
+	}
+
+	todo := Todo{}
+	todo.ID = ID
+
+	if err := db.Model(&todo).Updates(Todo{Context: context, LimitDate: &t}).Error; err != nil {
+		return todo, err
+	}
+	return todo, nil
+}
