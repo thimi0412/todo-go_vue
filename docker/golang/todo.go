@@ -86,3 +86,18 @@ func updateTodo(userID int, ID int, context string, limitDate string) (Todo, err
 	}
 	return todo, nil
 }
+
+func deleteTodo(userID int, ID int) error {
+	db := gormConnect()
+	defer db.Close()
+
+	todo := Todo{}
+	todo.ID = ID
+	todo.UserID = userID
+
+	if err := db.Delete(&todo).Error; err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -116,6 +116,32 @@ func updateTodoHandler(c *gin.Context) {
 	})
 }
 
+func deleteTodoHander(c *gin.Context) {
+
+	h := c.GetHeader("Authorization")
+	userID, err := authTokenString(h)
+	if err != nil || userID == 0 {
+		c.JSON(400, gin.H{
+			"messege": err,
+		})
+		return
+	}
+
+	sid := c.Param("id")
+	ID, _ := strconv.Atoi(sid)
+
+	if err := deleteTodo(userID, ID); err != nil {
+		c.JSON(400, gin.H{
+			"messege": err,
+		})
+		return
+	}
+	c.JSON(200, gin.H{
+		"messege": "Success!",
+	})
+	return
+}
+
 func signInHandler(c *gin.Context) {
 	email := c.PostForm("email")
 	passoword := c.PostForm("password")
@@ -176,6 +202,7 @@ func main() {
 	r.GET("/todo", getTodosHander)
 	r.POST("/todo", postTodoHandler)
 	r.PUT("/todo", updateTodoHandler)
+	r.DELETE("/todo/:id", deleteTodoHander)
 	r.POST("/signin", signInHandler)
 	r.POST("/signup", signUpHandler)
 
