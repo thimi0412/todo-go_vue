@@ -74,7 +74,7 @@ func updateTodo(userID int, ID int, context string, limitDate string) (Todo, err
 
 	t, err := time.ParseInLocation(timeformat, limitDate, loc)
 	if err != nil {
-		panic(err)
+		return Todo{}, err
 	}
 
 	todo := Todo{}
