@@ -1,7 +1,11 @@
 <template>
   <div class='hello'>
     <h1>TODO</h1>
-    <p v-for="(todo, index) in todos" :key="index">{{ todo }}</p>
+    <article class="todo-list">
+      <div v-for="todo in todos" :key="todo.id">
+        {{ todo.context }}, {{ todo.limit_date }}, {{ todo.updated_at }}
+      </div>
+    </article>
 
     <input v-model="form.context" type="text" placeholder="context" />
     <input @input="updateValue" type="datetime-local" placeholder="date-time" />
