@@ -53,7 +53,7 @@ func registerTodo(userID int, context string, limitDate string) (Todo, error) {
 
 	t, err := time.ParseInLocation(timeformat, limitDate, loc)
 	if err != nil {
-		panic(err)
+		return Todo{}, err
 	}
 
 	todo := Todo{}
