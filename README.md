@@ -11,7 +11,7 @@ docker-compose build
 docker-compose up
 ```
 
-# SerberSide
+# ServerSide
 - Golang(1.11~)
 - [gin](https://github.com/gin-gonic/gin)
 - [gorm](https://github.com/jinzhu/gorm)
