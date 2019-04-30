@@ -74,6 +74,10 @@ export default {
     }
   }
 }
+/**
+ * @param {String} date datetime形式の文字列
+ * @returns {String} yyyy/mm/dd hh:mm形式
+ */
 function formatDate(date) {
   let result = date.replace(/T/, ' ')
   result = result.split('+')[0]
