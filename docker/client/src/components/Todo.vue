@@ -3,7 +3,7 @@
     <h1>TODO</h1>
     <article class="todo-list">
       <div v-for="todo in todos" :key="todo.id">
-        {{ todo.context }}, {{ todo.limit_date }}, {{ todo.updated_at }}
+        <ul>{{ todo.context }}, {{ todo.limit_date }}, {{ todo.updated_at }}</ul>
       </div>
     </article>
 
