@@ -42,8 +42,18 @@ export default {
       axios.get('http://localhost:8090/todo')
         .then(res => {
           console.log(res)
-          this.todos = res.data.result
-          console.log(document.cookie)
+          let result = []
+          for(let r of res.data.result){
+            console.log(r)
+            result.push(
+              {
+                context: r.context,
+                limit_date: formatDate(r.limit_date),
+                updated_at: formatDate(r.updated_at),
+              }
+            )
+          }
+          this.todos = result
         })
         .catch(err => { console.log(err.response) })
     },
@@ -63,6 +73,11 @@ export default {
         })
     }
   }
+}
+function formatDate(date) {
+  let result = date.replace(/T/, ' ')
+  result = result.split('+')[0]
+  return result
 }
 </script>
 
