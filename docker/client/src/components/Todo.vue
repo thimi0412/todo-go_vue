@@ -2,9 +2,18 @@
   <div class='hello'>
     <h1>TODO</h1>
     <article class="todo-list">
-      <div v-for="todo in todos" :key="todo.id">
-        <ul>{{ todo.context }}, {{ todo.limit_date }}, {{ todo.updated_at }}</ul>
-      </div>
+      <table border="1" align="center">
+        <tr>
+          <th>TODO</th>
+          <th>期限日</th>
+          <th>登録日</th>
+        </tr>
+        <tr v-for="todo in todos" :key="todo.id">
+          <td>{{ todo.context }}</td>
+          <td>{{ todo.limit_date }}</td>
+          <td>{{ todo.updated_at }}</td>
+        </tr>
+      </table>
     </article>
 
     <input v-model="form.context" type="text" placeholder="context" />
