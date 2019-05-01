@@ -9,11 +9,11 @@
           <th>UPDATED_AT</th>
           <th>STUTAS</th>
         </tr>
-        <tr v-for="todo in todos" :key="todo.id" @click="select(todo.id)">
-          <td>{{ todo.context }}</td>
+        <tr v-for="todo in todos" :key="todo.id">
+          <td >{{ todo.context }}</td>
           <td>{{ todo.limit_date }}</td>
           <td>{{ todo.updated_at }}</td>
-          <td><button>delete</button></td>
+          <td @click="deleteTodo(todo.id)">delete</td>
         </tr>
       </table>
     </article>
@@ -85,12 +85,10 @@ export default {
           console.log(err)
         })
     },
-    select: function (itemname) {
-      alert(itemname)
-    },
     // 作成途中
-    deleteTodo () {
-      axios.delete('http://localhost:8090/todo')
+    deleteTodo (id) {
+      const url = 'http://localhost:8090/todo/' + id
+      axios.delete(url)
         .then(res => {
           console.log(res)
           this.get()
