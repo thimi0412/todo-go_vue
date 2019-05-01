@@ -13,7 +13,7 @@
           <td>{{ todo.context }}</td>
           <td>{{ todo.limit_date }}</td>
           <td>{{ todo.updated_at }}</td>
-          <td><button @click="deleteTodo()" style="background-color: gray;">delete</button></td>
+          <td><button>delete</button></td>
         </tr>
       </table>
     </article>
@@ -84,6 +84,7 @@ export default {
           console.log(err)
         })
     },
+    // 作成途中
     deleteTodo () {
       axios.delete('http://localhost:8090/todo')
         .then(res => {
