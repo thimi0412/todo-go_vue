@@ -13,7 +13,7 @@
           <td >{{ todo.context }}</td>
           <td>{{ todo.limit_date }}</td>
           <td>{{ todo.updated_at }}</td>
-          <td @click="deleteTodo(todo.id)">delete</td>
+          <td id="delete" @click="deleteTodo(todo.id)">delete</td>
         </tr>
       </table>
     </article>
@@ -149,5 +149,9 @@ table th,table td{
   text-align: center;
   width: 25%;
   padding: 15px 0;
+}
+
+#delete{
+  color: crimson
 }
 </style>
