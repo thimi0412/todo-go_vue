@@ -13,7 +13,7 @@
           <td>{{ todo.context }}</td>
           <td>{{ todo.limit_date }}</td>
           <td>{{ todo.updated_at }}</td>
-          <td><button>削除</button></td>
+          <td><button @click="deleteTodo()" style="background-color: gray;">delete</button></td>
         </tr>
       </table>
     </article>
@@ -76,6 +76,16 @@ export default {
       params.append('context', this.form.context);
       params.append('limit_date', this.form.dateTime);
       axios.post('http://localhost:8090/todo', params)
+        .then(res => {
+          console.log(res)
+          this.get()
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    deleteTodo () {
+      axios.delete('http://localhost:8090/todo')
         .then(res => {
           console.log(res)
           this.get()
