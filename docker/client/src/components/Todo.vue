@@ -10,7 +10,7 @@
           <th>STUTAS</th>
         </tr>
         <tr v-for="todo in todos" :key="todo.id">
-          <td >{{ todo.context }}</td>
+          <td>{{ todo.context }}</td>
           <td>{{ todo.limit_date }}</td>
           <td>{{ todo.updated_at }}</td>
           <td id="delete" @click="deleteTodo(todo.id)">delete</td>
