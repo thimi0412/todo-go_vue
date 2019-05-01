@@ -78,6 +78,7 @@ export default {
       axios.post('http://localhost:8090/todo', params)
         .then(res => {
           console.log(res)
+          this.get()
         })
         .catch(err => {
           console.log(err)
