@@ -9,7 +9,7 @@
           <th>UPDATED_AT</th>
           <th>STUTAS</th>
         </tr>
-        <tr v-for="todo in todos" :key="todo.id">
+        <tr v-for="todo in todos" :key="todo.id" @click="select(todo.id)">
           <td>{{ todo.context }}</td>
           <td>{{ todo.limit_date }}</td>
           <td>{{ todo.updated_at }}</td>
@@ -58,6 +58,7 @@ export default {
             console.log(r)
             result.push(
               {
+                id: r.id,
                 context: r.context,
                 limit_date: formatDate(r.limit_date),
                 updated_at: formatDate(r.updated_at),
@@ -83,6 +84,9 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    select: function (itemname) {
+      alert(itemname)
     },
     // 作成途中
     deleteTodo () {
