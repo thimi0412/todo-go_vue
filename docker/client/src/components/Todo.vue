@@ -2,7 +2,7 @@
   <div class='hello'>
     <h1>TODO</h1>
     <article class="todo-list">
-      <table border="1" align="center">
+      <table align="center">
         <tr>
           <th>TODO</th>
           <th>期限日</th>
@@ -126,5 +126,25 @@ a {
 button {
   margin: 10px 0;
   padding: 10px;
+}
+table{
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+table tr{
+  border-bottom: solid 1px #eee;
+  cursor: pointer;
+}
+
+table tr:hover{
+  background-color: #d4f0fd;
+}
+
+table th,table td{
+  text-align: center;
+  width: 25%;
+  padding: 15px 0;
 }
 </style>
