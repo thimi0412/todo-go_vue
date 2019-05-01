@@ -5,8 +5,8 @@
       <table align="center">
         <tr>
           <th>TODO</th>
-          <th>期限日</th>
-          <th>更新日</th>
+          <th>LIMIT</th>
+          <th>UPDATED_AT</th>
           <th>STUTAS</th>
         </tr>
         <tr v-for="todo in todos" :key="todo.id">
