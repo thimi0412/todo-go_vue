@@ -9,12 +9,17 @@
           <th>UPDATED_AT</th>
           <th>STUTAS</th>
         </tr>
-        <tr v-for="todo in todos" :key="todo.id">
+        <tr v-for="todo in todos" :key="todo.id" @click="show(todo)">
           <td>{{ todo.context }}</td>
           <td>{{ todo.limit_date }}</td>
           <td>{{ todo.updated_at }}</td>
           <td id="delete" @click="deleteTodo(todo.id)">delete</td>
         </tr>
+      <modal name="v-modal">
+        <td>{{ todo.context }}</td>
+        <td>{{ todo.limit_date }}</td>
+        <td>{{ todo.updated_at }}</td>
+      </modal>
       </table>
     </article>
 
@@ -42,6 +47,7 @@ export default {
         dateTime: ''
       },
       todos: [],
+      todo: [],
       date: new Date().toLocaleString().replace(/\//g, '-')
     }
   },
@@ -96,6 +102,13 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    show (todo) {
+    this.$modal.show('v-modal');
+    this.todo = todo
+    },
+    hide () {
+      this.$modal.hide('v-modal');
     }
   }
 }
