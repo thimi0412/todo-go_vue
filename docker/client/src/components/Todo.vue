@@ -58,10 +58,8 @@ export default {
     get () {
       axios.get('http://localhost:8090/todo')
         .then(res => {
-          console.log(res)
           let result = []
           for(let r of res.data.result){
-            console.log(r)
             result.push(
               {
                 id: r.id,
@@ -84,7 +82,6 @@ export default {
       params.append('limit_date', this.form.dateTime);
       axios.post('http://localhost:8090/todo', params)
         .then(res => {
-          console.log(res)
           this.get()
         })
         .catch(err => {
@@ -96,7 +93,6 @@ export default {
       const url = 'http://localhost:8090/todo/' + id
       axios.delete(url)
         .then(res => {
-          console.log(res)
           this.get()
         })
         .catch(err => {
